@@ -11,13 +11,15 @@ if($conn->connect_error){
 }
 
 if (isset($_POST['signup'])) {
-
-    $uname = trim($_POST['uname']); // get posted data and remove whitespace
+    // get posted data and remove whitespace
+    $name = trim($_POST['name']); 
     $email = trim($_POST['email']);
-    $upass = trim($_POST['pass']);
+    $pass = trim($_POST['password']);
+    $address = trim($_POST['address']);
+    $mobile = trim($_POST['mobile']);
 
     // hash password with SHA256;
-    $password = hash('sha256', $upass);
+    $password = hash('sha256', $pass);
 
     // check email exist or not
     $stmt = $conn->prepare("SELECT email FROM users WHERE email=?");
@@ -29,15 +31,11 @@ if (isset($_POST['signup'])) {
     $count = $result->num_rows;
 
     if ($count == 0) { // if email is not found add user
+        $query = "INSERT INTO users(email,password,name,address,mobile) VALUES('$email','$password','$name','$address','$mobile')";
 
-
-        $stmts = $conn->prepare("INSERT INTO users(username,email,password) VALUES(?, ?, ?)");
-        $stmts->bind_param("sss", $uname, $email, $password);
-        $res = $stmts->execute();//get result
-        $stmts->close();
-
-        $user_id = mysqli_insert_id($conn);
-        if ($user_id > 0) {
+        if (mysqli_query($conn, $query)) {
+            $user_id = mysqli_insert_id($conn);
+            echo 'user id is = '.$user_id;
             $_SESSION['user'] = $user_id; // set session and redirect to index page
             if (isset($_SESSION['user'])) {
                 print_r($_SESSION);
@@ -47,6 +45,7 @@ if (isset($_POST['signup'])) {
 
         } else {
             $errTyp = "danger";
+            $err = mysqli_error($conn);
             $errMSG = "Something went wrong, try again";
         }
 
@@ -97,7 +96,7 @@ if (isset($_POST['signup'])) {
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        <input type="text" name="uname" class="form-control" placeholder="Enter Username" required/>
+                        <input type="text" name="name" class="form-control" placeholder="Enter your name" required/>
                     </div>
                 </div>
 
@@ -111,18 +110,31 @@ if (isset($_POST['signup'])) {
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        <input type="password" name="pass" class="form-control" placeholder="Enter Password"
+                        <input type="password" name="password" class="form-control" placeholder="Enter Password"
                                required/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" name="address" class="form-control" placeholder="Enter your address" required/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" name="mobile" class="form-control" placeholder="Enter your mobile number" required/>
                     </div>
                 </div>
 
                 <div class="checkbox">
-                    <label><input type="checkbox" id="TOS" value="This"><a href="#">I agree with
-                            terms of service</a></label>
+                    <label><input type="checkbox" id="TOS" value="This"><a href="#">I agree with terms of service</a></label>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn    btn-block btn-primary" name="signup" id="reg">Register</button>
+                    <button type="submit" class="btn btn-block btn-primary" name="signup" id="reg">Register</button>
                 </div>
 
                 <div class="form-group">
