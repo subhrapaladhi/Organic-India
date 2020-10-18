@@ -1,10 +1,6 @@
 <?php
 ob_start();
 session_start();
-$conn = new mysqli("localhost","root","","Organic_India");
-if($conn->connect_error){
-    die("Connection to Mysql failed");
-}
 
 // if session is set direct to index
 if (isset($_SESSION['user'])) {
@@ -12,12 +8,21 @@ if (isset($_SESSION['user'])) {
     exit;
 }
 
+$conn = new mysqli("localhost","root","","Organic_India");
+if($conn->connect_error){
+    die("Connection to Mysql failed");
+}
+
+
 if (isset($_POST['btn-login'])) {
     $email = $_POST['email'];
-    $upass = $_POST['pass'];
-
+    $upass = $_POST['password'];
+    
+    echo "email = ".$email." || upass = ".$upass;
+    
     $password = hash('sha256', $upass); // password hashing using SHA256
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE email= ?");
+    
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email= ?");
     $stmt->bind_param("s", $email);
     /* execute query */
     $stmt->execute();
@@ -85,7 +90,7 @@ if (isset($_POST['btn-login'])) {
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        <input type="password" name="pass" class="form-control" placeholder="Password" required/>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required/>
                     </div>
                 </div>
 
