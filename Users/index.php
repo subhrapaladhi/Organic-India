@@ -7,7 +7,7 @@ require_once ('./component.php');
 
 
 // create instance of Createdb class
-$database = new CreateDb("Productdb", "Producttb");
+$database = new CreateDb("Organic_India", "products");
 
 if (isset($_POST['add'])){
     /// print_r($_POST['product_id']);
