@@ -52,8 +52,6 @@ if (isset($_POST['btn-login'])) {
 <body>
 
 <div class="container">
-
-
     <div id="login-form">
         <form method="post" autocomplete="off">
 
