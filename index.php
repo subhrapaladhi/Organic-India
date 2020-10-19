@@ -3,7 +3,7 @@ ob_start();
 session_start();
 
 if (isset($_SESSION['user']) != "") {
-    header("Location: ./Users/index.php");
+    header("Location: ./User/index.php");
 }
 
 // if (isset($_SESSION['seller']) != "") {
@@ -46,7 +46,7 @@ if (isset($_SESSION['user']) != "") {
 <div class="container">
     <div class="row">
         <div class="col">
-            <a class="btn btn-lg btn-success" href="./Users/Login/login.php" role="button">Buyer Signup</a>
+            <a class="btn btn-lg btn-success" href="./User/Login/login.php" role="button">Buyer Signup</a>
         </div>
         <div class="col">
             <a class="btn btn-warning btn-lg" href="#" role="button">Seller Signup</a>
