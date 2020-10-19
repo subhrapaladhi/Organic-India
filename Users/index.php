@@ -1,10 +1,14 @@
 <?php
-
+ob_start();
 session_start();
 
 require_once ('./CreateDb.php');
 require_once ('./component.php');
 
+if (!isset($_SESSION['user'])) {
+    header("Location: ./Login/login.php");
+    exit;
+}
 
 // create instance of Createdb class
 $database = new CreateDb("Organic_India", "products");

@@ -21,7 +21,7 @@
             <div class="mr-auto"></div>
             <div class="navbar-nav">
                 <a href="cart.php" class="nav-item nav-link active">
-                    <h5 class="px-5 cart">
+                    <h5 class="cart">
                         <i class="fas fa-shopping-cart"></i> Cart
                         <?php
 
@@ -33,6 +33,11 @@
                         }
 
                         ?>
+                    </h5>
+                </a>
+                <a href="./Login/logout.php?logout" class="nav-item nav-link active">
+                    <h5 class=" cart">
+                        <span class="glyphicon glyphicon-log-out"></span>Logout
                     </h5>
                 </a>
             </div>

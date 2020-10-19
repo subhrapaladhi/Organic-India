@@ -5,6 +5,11 @@ session_start();
 require_once ("./CreateDb.php");
 require_once ("./component.php");
 
+if (!isset($_SESSION['user'])) {
+    header("Location: ./Login/login.php");
+    exit;
+}
+
 $database = new CreateDb("Organic_India", "products");
 
 if (isset($_POST['remove'])){

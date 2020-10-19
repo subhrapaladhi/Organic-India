@@ -1,6 +1,4 @@
 <?php
-
-
 class CreateDb
 {
         public $servername;
@@ -55,9 +53,3 @@ class CreateDb
         }
     }
 }
-
-
-
-
-
-
