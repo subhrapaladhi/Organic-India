@@ -20,6 +20,24 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="mr-auto"></div>
             <div class="navbar-nav">
+                <a href="#" class="nav-item nav-link active">
+                    <p class="cart">
+                        <?php
+                        if (isset($_SESSION['user'])){
+                            $conn = new mysqli("localhost","root","","Organic_India");
+                            if($conn->connect_error){
+                                die("Connection to Mysql failed");
+                            }
+                            $res = $conn->query("SELECT * FROM users WHERE id=" . $_SESSION['user']);
+                            $userRow = mysqli_fetch_array($res, MYSQLI_ASSOC); 
+                            echo '<span id="cart_count" class="text-warning bg-light">'.$userRow['name'].'</span>';
+                        }else{
+                            echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
+                        }
+
+                        ?>
+                    </p>
+                </a>
                 <a href="cart.php" class="nav-item nav-link active">
                     <h5 class="cart">
                         <i class="fas fa-shopping-cart"></i> Cart
