@@ -15,12 +15,12 @@
                 <a href="#" class="nav-item nav-link active">
                     <p class="cart">
                         <?php
-                        if (isset($_SESSION['user'])) {
+                        if (isset($_SESSION['seller'])) {
                             $conn = new mysqli("localhost", "root", "", "Organic_India");
                             if ($conn->connect_error) {
                                 die("Connection to Mysql failed");
                             }
-                            $res = $conn->query("SELECT * FROM users WHERE id=" . $_SESSION['user']);
+                            $res = $conn->query("SELECT * FROM sellers WHERE id=" . $_SESSION['seller']);
                             $userRow = mysqli_fetch_array($res, MYSQLI_ASSOC);
                             echo '<span id="cart_count" class="text-warning bg-light">' . $userRow['name'] . '</span>';
                         } else {
@@ -30,20 +30,10 @@
                         ?>
                     </p>
                 </a>
-                
-                <a href="cart.php" class="nav-item nav-link active">
-                    <h5 class="cart">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                        <?php
 
-                        if (isset($_SESSION['cart'])) {
-                            $count = count($_SESSION['cart']);
-                            echo "<span id=\"cart_count\" class=\"text-warning bg-light\">$count</span>";
-                        } else {
-                            echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
-                        }
-
-                        ?>
+                <a href="./form.php" class="nav-item nav-link active">
+                    <h5 class=" cart">
+                        <span class="glyphicon glyphicon-log-out"></span>Add Product
                     </h5>
                 </a>
                 <a href="./Login/logout.php?logout" class="nav-item nav-link active">

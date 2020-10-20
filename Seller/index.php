@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 
-// require_once ('./CreateDb.php');
+require_once ('./header.php');
 require_once('./component.php');
 
 if (!isset($_SESSION['seller'])) {
@@ -30,6 +30,7 @@ if (!isset($_SESSION['seller'])) {
 </head>
 
 <body>
+    <h1 style="text-align: center; margin-top: 1%; font-size:300%;">Your Products</h1>
     <div class="container">
         <div class="row text-center py-5">
 
@@ -53,3 +54,5 @@ if (!isset($_SESSION['seller'])) {
 </body>
 
 </html>
+
+

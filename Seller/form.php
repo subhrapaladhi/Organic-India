@@ -1,8 +1,63 @@
+<?php
+ob_start();
+session_start();
+
+if (!isset($_SESSION['seller'])) {
+    header("Location: ./Login/login.php");
+    exit;
+}
+
+require_once('./header.php');
+
+if (isset($_POST['data'])) {
+    $product_name = trim($_POST['name']);
+    $product_price = trim($_POST['cost']);
+    $product_description = trim($_POST['description']);
+
+    $file_tmp = $_FILES['image']['tmp_name'];
+    $file_type = $_FILES['image']['type'];
+    $file_parts = explode('.', $_FILES['image']['name']);
+    $file_ext = strtolower(end($file_parts));
+
+    define('SITE_ROOT', realpath(dirname(__FILE__)));
+    $fileName = rand() . "." . $file_ext;
+    $dest = SITE_ROOT . "/upload/" . $fileName;
+
+    move_uploaded_file($file_tmp, $dest);
+
+    $conn = new mysqli("localhost", "root", "", "Organic_India");
+    if ($conn->connect_error) {
+        die("Connection to Mysql failed");
+    }
+    $query = "INSERT INTO products (product_name, product_price, product_image,	product_description, sellerid) VALUES ('" . $product_name . "','" . $product_price . "','" . $fileName . "','" . $product_description . "','" . $_SESSION['seller'] . "')";
+    if (!$result = $conn->query($query)) {
+        die('There was an error running the query [' . $conn->error . ']');
+    } else {
+        echo "Product Added!";
+    }
+    echo "<h3>File uploaded successfully<h3>";
+}
+?>
+
+
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Organic India</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css" />
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./style.css">
+
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <style>
         #loading-img {
             display: none;
@@ -17,72 +72,39 @@
             padding: 3px;
             display: none;
         }
+        div.container{
+            margin-top: 2%;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Add a Product</h1>
-                <form name="contact-form" action="" method="post" id="contact-form">
-                    <div class="form-group">
-                        <label for="Name">Product Name</label>
-                        <input type="text" class="form-control" name="product_name" placeholder="Product Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Product Price</label>
-                        <input type="number" class="form-control" name="product_price" placeholder="Enter price" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Product Description</label>
-                        <textarea name="description" class="form-control" rows="3" cols="28" rows="5" placeholder="Write Product Description"></textarea>
-                    </div>
-                    <div>
-                        <label for="product_image">Product Image</label>
-                        <input type="file" name="product_image" id="product_image">
-                    </div>
-                    <br>
-                    <br>
-                    <button type="submit" class="btn btn-primary" name="submit" value="Submit" id="submit_form">Submit</button>
-                </form>
-                <div class="response_msg"></div>
+        <h1>Add Product</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Product name">
             </div>
-        </div>
+            <div class="form-group">
+                <label for="cost">Product cost</label>
+                <input type="number" name="cost" class="form-control" id="cost" placeholder="Product cost">
+            </div>
+            <div class="form-group">
+                <label for="description">Product Description</label>
+                <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">Upload product image</label>
+                <input type="file" name="image" class="form-control-file" id="image">
+            </div>
+            <input type="submit" name="data" class="btn btn-primary" />
+        </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#contact-form").on("submit", function(e) {
-                e.preventDefault();
-                if ($("#contact-form [name='product_name']").val() === '') {
-                    $("#contact-form [name='product_name']").css("border", "1px solid red");
-                } else if ($("#contact-form [name='product_price']").val() === '') {
-                    $("#contact-form [name='product_price']").css("border", "1px solid red");
-                } else {
-                    // $("#loading-img").css("display","block");
-                    var sendData = $(this).serialize();
-                    $.ajax({
-                        type: "POST",
-                        url: "get_response.php",
-                        data: sendData,
-                        success: function(data) {
-                            $("#loading-img").css("display", "none");
-                            $(".response_msg").text("Product Added!");
-                            $(".response_msg").slideDown();
-                            $("#contact-form").find("input[type=text], input[type=email], textarea").val("");
-                        }
-                    });
-                }
-            });
-            $("#contact-form input").blur(function() {
-                var checkValue = $(this).val();
-                if (checkValue != '') {
-                    $(this).css("border", "1px solid #eeeeee");
-                }
-            });
-        });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>
