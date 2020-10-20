@@ -1,4 +1,3 @@
-
 <header id="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a href="index.php" class="navbar-brand">
@@ -6,14 +5,7 @@
                 <i class="fas fa-shopping-basket"></i> Organic India
             </h3>
         </a>
-        <button class="navbar-toggler"
-            type="button"
-                data-toggle="collapse"
-                data-target = "#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -23,15 +15,15 @@
                 <a href="#" class="nav-item nav-link active">
                     <p class="cart">
                         <?php
-                        if (isset($_SESSION['user'])){
-                            $conn = new mysqli("localhost","root","","Organic_India");
-                            if($conn->connect_error){
+                        if (isset($_SESSION['user'])) {
+                            $conn = new mysqli("localhost", "root", "", "Organic_India");
+                            if ($conn->connect_error) {
                                 die("Connection to Mysql failed");
                             }
                             $res = $conn->query("SELECT * FROM users WHERE id=" . $_SESSION['user']);
-                            $userRow = mysqli_fetch_array($res, MYSQLI_ASSOC); 
-                            echo '<span id="cart_count" class="text-warning bg-light">'.$userRow['name'].'</span>';
-                        }else{
+                            $userRow = mysqli_fetch_array($res, MYSQLI_ASSOC);
+                            echo '<span id="cart_count" class="text-warning bg-light">' . $userRow['name'] . '</span>';
+                        } else {
                             echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
                         }
 
@@ -48,10 +40,10 @@
                         <i class="fas fa-shopping-cart"></i> Cart
                         <?php
 
-                        if (isset($_SESSION['cart'])){
+                        if (isset($_SESSION['cart'])) {
                             $count = count($_SESSION['cart']);
                             echo "<span id=\"cart_count\" class=\"text-warning bg-light\">$count</span>";
-                        }else{
+                        } else {
                             echo "<span id=\"cart_count\" class=\"text-warning bg-light\">0</span>";
                         }
 

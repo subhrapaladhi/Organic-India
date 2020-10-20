@@ -3,7 +3,7 @@ ob_start();
 session_start();
 
 // if session is set direct to index
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['seller'])) {
     header("Location: ../index.php");
     exit;
 }
@@ -22,7 +22,7 @@ if (isset($_POST['btn-login'])) {
     
     $password = hash('sha256', $upass); // password hashing using SHA256
     
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email= ?");
+    $stmt = $conn->prepare("SELECT * FROM sellers WHERE email= ?");
     $stmt->bind_param("s", $email);
     /* execute query */
     $stmt->execute();
@@ -34,7 +34,7 @@ if (isset($_POST['btn-login'])) {
 
     $count = $res->num_rows;
     if ($count == 1 && $row['password'] == $password) {
-        $_SESSION['user'] = $row['id'];
+        $_SESSION['seller'] = $row['id'];
         header("Location: ../index.php");
     } elseif ($count == 1) {
         $errMSG = "Bad password";

@@ -4,11 +4,9 @@ session_start();
 
 if (isset($_SESSION['user']) != "") {
     header("Location: ./User/index.php");
+} else if (isset($_SESSION['seller']) != "") {
+    header("Location: ./Seller/index.php");
 }
-
-// if (isset($_SESSION['seller']) != "") {
-//     header("Location: ./Seller/index.php");
-// }
 
 ?>
 
@@ -49,7 +47,7 @@ if (isset($_SESSION['user']) != "") {
             <a class="btn btn-lg btn-success" href="./User/Login/login.php" role="button">Buyer Signup</a>
         </div>
         <div class="col">
-            <a class="btn btn-warning btn-lg" href="#" role="button">Seller Signup</a>
+            <a class="btn btn-warning btn-lg" href="./Seller/Login/login.php" role="button">Seller Signup</a>
         </div>
     </div>
 </div>
