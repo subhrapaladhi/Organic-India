@@ -1,6 +1,4 @@
 <?php
-
-
 class CreateDb
 {
         public $servername;
@@ -13,20 +11,20 @@ class CreateDb
 
         // class constructor
     public function __construct(
-        $dbname = "Newdb",
-        $tablename = "Productdb",
+        $dbname,
+        $tablename,
         $servername = "localhost",
         $username = "root",
         $password = ""
     )
     {
-      $this->dbname = $dbname;
-      $this->tablename = $tablename;
-      $this->servername = $servername;
-      $this->username = $username;
-      $this->password = $password;
+        $this->dbname = $dbname;
+        $this->tablename = $tablename;
+        $this->servername = $servername;
+        $this->username = $username;
+        $this->password = $password;
 
-      // create connection
+        // create connection
         $this->con = mysqli_connect($servername, $username, $password);
 
         // Check connection
@@ -39,21 +37,7 @@ class CreateDb
 
         // execute query
         if(mysqli_query($this->con, $sql)){
-
             $this->con = mysqli_connect($servername, $username, $password, $dbname);
-
-            // sql to create new table
-            $sql = " CREATE TABLE IF NOT EXISTS $tablename
-                            (id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                             product_name VARCHAR (25) NOT NULL,
-                             product_price FLOAT,
-                             product_image VARCHAR (100)
-                            );";
-
-            if (!mysqli_query($this->con, $sql)){
-                echo "Error creating table : " . mysqli_error($this->con);
-            }
-
         }else{
             return false;
         }
@@ -61,18 +45,11 @@ class CreateDb
 
     // get product from the database
     public function getData(){
-        $sql = "SELECT * FROM $this->tablename";
+        $sql = "SELECT * FROM ".$this->tablename;
 
         $result = mysqli_query($this->con, $sql);
-
         if(mysqli_num_rows($result) > 0){
             return $result;
         }
     }
 }
-
-
-
-
-
-

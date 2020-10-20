@@ -2,10 +2,15 @@
 
 session_start();
 
-require_once ("php/CreateDb.php");
-require_once ("php/component.php");
+require_once ("./CreateDb.php");
+require_once ("./component.php");
 
-$db = new CreateDb("Productdb", "Producttb");
+if (!isset($_SESSION['user'])) {
+    header("Location: ./Login/login.php");
+    exit;
+}
+
+$database = new CreateDb("Organic_India", "products");
 
 if (isset($_POST['remove'])){
   if ($_GET['action'] == 'remove'){
@@ -18,7 +23,6 @@ if (isset($_POST['remove'])){
       }
   }
 }
- 
 
 ?>
 
@@ -37,12 +41,12 @@ if (isset($_POST['remove'])){
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body class="bg-light">
 
 <?php
-    require_once ('php/header.php');
+    require_once ('./header.php');
 ?>
 
 <div class="container-fluid">
@@ -58,7 +62,7 @@ if (isset($_POST['remove'])){
                     if (isset($_SESSION['cart'])){
                         $product_id = array_column($_SESSION['cart'], 'product_id');
 
-                        $result = $db->getData();
+                        $result = $database->getData();
                         while ($row = mysqli_fetch_assoc($result)){
                             foreach ($product_id as $id){
                                 if ($row['id'] == $id){
