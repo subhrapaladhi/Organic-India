@@ -38,6 +38,11 @@
                         ?>
                     </p>
                 </a>
+                <a href="./addProduct/form.php" class="nav-item nav-link active">
+                    <h5 class=" cart">
+                        <span class="glyphicon glyphicon-log-out"></span>Add Product
+                    </h5>
+                </a>
                 <a href="cart.php" class="nav-item nav-link active">
                     <h5 class="cart">
                         <i class="fas fa-shopping-cart"></i> Cart
