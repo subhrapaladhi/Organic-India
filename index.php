@@ -24,7 +24,7 @@ if (isset($_SESSION['user']) != "") {
 <header id="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a href="index.php" class="navbar-brand">
-            <h3 class="px-5">
+            <h3 class="px-4">
                 <i class="fas fa-shopping-basket"></i> Organic India
             </h3>
         </a>
