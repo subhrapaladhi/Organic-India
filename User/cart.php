@@ -26,7 +26,7 @@ if (isset($_POST['remove'])){
 
 if(isset($_POST['buy'])){
     if($_GET['action']=='buy'){
-        $transconn = new mysqli("localhost","root","","Organic_India");
+        $transconn = new mysqli("localhost","root","RishabhB@7130R","Organic_India");
         
         $product_id = array_column($_SESSION['cart'], 'product_id');
         print_r($product_id);

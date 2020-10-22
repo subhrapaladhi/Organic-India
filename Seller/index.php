@@ -35,7 +35,7 @@ if (!isset($_SESSION['seller'])) {
         <div class="row text-center py-5">
 
             <?php
-                $conn = new mysqli("localhost", "root", "", "Organic_India");
+                $conn = new mysqli("localhost", "root", "RishabhB@7130R", "Organic_India");
                 if ($conn->connect_error) {
                     die("Connection to Mysql failed");
                 }

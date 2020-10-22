@@ -25,7 +25,7 @@ if (isset($_POST['data'])) {
 
     move_uploaded_file($file_tmp, $dest);
 
-    $conn = new mysqli("localhost", "root", "", "Organic_India");
+    $conn = new mysqli("localhost", "root", "RishabhB@7130R", "Organic_India");
     if ($conn->connect_error) {
         die("Connection to Mysql failed");
     }

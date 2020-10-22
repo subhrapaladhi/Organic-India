@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['user']) != "") {
     header("Location: ../index.php");
 }
-$conn = new mysqli("localhost","root","","Organic_India");
+$conn = new mysqli("localhost","root","RishabhB@7130R","Organic_India");
 if($conn->connect_error){
     die("Connection to Mysql failed");
 }

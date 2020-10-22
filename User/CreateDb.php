@@ -15,7 +15,7 @@ class CreateDb
         $tablename,
         $servername = "localhost",
         $username = "root",
-        $password = ""
+        $password = "RishabhB@7130R"
     )
     {
         $this->dbname = $dbname;
