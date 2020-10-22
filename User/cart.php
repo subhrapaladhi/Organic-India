@@ -24,6 +24,27 @@ if (isset($_POST['remove'])){
   }
 }
 
+if(isset($_POST['buy'])){
+    if($_GET['action']=='buy'){
+        $transconn = new mysqli("localhost","root","","Organic_India");
+        
+        $product_id = array_column($_SESSION['cart'], 'product_id');
+        print_r($product_id);
+        
+        $buyerid = $_SESSION['user'];
+        foreach($product_id as $itemid){
+            $prodData = $transconn->query("SELECT * FROM products WHERE id=".$itemid);
+            $prodrow = mysqli_fetch_array($prodData,MYSQLI_ASSOC);
+            $sellerid = $prodrow['sellerid'];
+
+            $query = "INSERT INTO transactions(productid,sellerid,buyerid) VALUES('$itemid','$sellerid','$buyerid')";
+            $transconn->query($query);
+        }
+        
+        echo "transaction success";
+    }
+}
+
 ?>
 
 <!doctype html>
@@ -106,6 +127,11 @@ if (isset($_POST['remove'])){
                             echo $total;
                         ?></h6>
                     </div>
+                </div>
+                <div class="row price-details">
+                    <form style="margin-left: 52%; margin-bottom:2%;" action="cart.php?action=buy" method="post">
+                        <button class="btn btn-success" type="submit" name="buy">Buy now</button>
+                    </form>
                 </div>
             </div>
 
