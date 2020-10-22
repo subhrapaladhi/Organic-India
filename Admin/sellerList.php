@@ -3,15 +3,23 @@ ob_start();
 session_start();
 require_once ("./header.php");
 require_once ('./CreateDb.php');
-// require_once ('./component.php');
 
 if (!isset($_SESSION['admin'])) {
     header("Location: ./Login/login.php");
     exit;
 }
 
-// create instance of Createdb class
-$database = new CreateDb("Organic_India", "products");
+$conn = new mysqli("localhost","root","","Organic_India");
+if($conn->connect_error){
+    die("Connection to Mysql failed");
+}
+
+if(isset($_POST['remove'])){
+    if($_GET['action']=='remove'){
+        $query = "DELETE FROM sellers WHERE id=".$_GET['id'];
+        $conn->query($query);
+    }
+}
 
 ?>
 
@@ -31,16 +39,34 @@ $database = new CreateDb("Organic_India", "products");
 
     <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
+<div class="container">
+<h1 style="margin-top: 1%;">List of Sellers</h1>
+<table class="table">
+    <tr>
+        <th>Seller Name</th>
+        <th>Seller Email</th>
+        <th>Remove</th>
+    </tr>
 
-<div style="margin-top: 15%;" class="container">
-    <div class="row">
-        <a style="margin: 1%;" href="buyerList.php" class="col btn btn-outline-primary">List of Buyers</a>
-        <a style="margin: 1%;" href="sellerList.php" class="col btn btn-outline-secondary">List of Sellers</a>
-        <a style="margin: 1%;" href="productList.php" class="col btn btn-outline-success">List of Products</a>
-        <a style="margin: 1%;" href="#" class="col btn btn-outline-dark">List of Transactions</a>
-    </div>
+<?php
+$sellerDB = new CreateDb("Organic_India", "sellers");
+$sellerList = $sellerDB->getData();
+
+while($row = mysqli_fetch_assoc($sellerList)){
+    $person = "
+    <tr>
+    <form action=\"sellerList.php?action=remove&id=".$row['id']."\" method=\"post\">
+        <td>".$row['name']."</td>
+        <td>".$row['email']."</td>
+        <td><button type=\"submit\" name=\"remove\">Remove</button></td>
+    </form>
+    </tr>
+    ";
+    echo $person;
+}
+?>
+</table>
 </div>
 
 

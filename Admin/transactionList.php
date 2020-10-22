@@ -31,17 +31,7 @@ $database = new CreateDb("Organic_India", "products");
 
     <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-
-<div style="margin-top: 15%;" class="container">
-    <div class="row">
-        <a style="margin: 1%;" href="buyerList.php" class="col btn btn-outline-primary">List of Buyers</a>
-        <a style="margin: 1%;" href="sellerList.php" class="col btn btn-outline-secondary">List of Sellers</a>
-        <a style="margin: 1%;" href="productList.php" class="col btn btn-outline-success">List of Products</a>
-        <a style="margin: 1%;" href="#" class="col btn btn-outline-dark">List of Transactions</a>
-    </div>
-</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
