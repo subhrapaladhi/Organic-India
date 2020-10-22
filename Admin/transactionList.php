@@ -3,15 +3,23 @@ ob_start();
 session_start();
 require_once ("./header.php");
 require_once ('./CreateDb.php');
-// require_once ('./component.php');
 
 if (!isset($_SESSION['admin'])) {
     header("Location: ./Login/login.php");
     exit;
 }
 
-// create instance of Createdb class
-$database = new CreateDb("Organic_India", "products");
+$conn = new mysqli("localhost","root","","Organic_India");
+if($conn->connect_error){
+    die("Connection to Mysql failed");
+}
+
+if(isset($_POST['remove'])){
+    if($_GET['action']=='remove'){
+        $query = "DELETE FROM transactions WHERE id=".$_GET['id'];
+        $conn->query($query);
+    }
+}
 
 ?>
 
@@ -32,6 +40,38 @@ $database = new CreateDb("Organic_India", "products");
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+<div class="container">
+<h1 style="margin-top: 1%;">List of Sellers</h1>
+<table class="table">
+    <tr>
+        <th>Transaction ID</th>
+        <th>Product ID</th>
+        <th>Seller ID</th>
+        <th>Buyer ID</th>
+        <th>Date and Time</th>
+    </tr>
+
+<?php
+$transDB = new CreateDb("Organic_India", "transactions");
+$transList = $transDB->getData();
+
+while($row = mysqli_fetch_assoc($transList)){
+    $trans = "
+    <tr>
+    <form action=\"transactionList.php?action=remove&id=".$row['id']."\" method=\"post\">
+        <td>".$row['id']."</td>
+        <td>".$row['productid']."</td>
+        <td>".$row['sellerid']."</td>
+        <td>".$row['date']."</td>
+        <td><button type=\"submit\" name=\"remove\">Remove</button></td>
+    </form>
+    </tr>
+    ";
+    echo $trans;
+}
+?>
+</table>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

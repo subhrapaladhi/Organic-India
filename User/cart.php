@@ -40,8 +40,8 @@ if(isset($_POST['buy'])){
             $query = "INSERT INTO transactions(productid,sellerid,buyerid) VALUES('$itemid','$sellerid','$buyerid')";
             $transconn->query($query);
         }
-        
-        echo "transaction success";
+        unset($_SESSION['cart']);
+        header("Location: ./transactionSuccess.php");
     }
 }
 

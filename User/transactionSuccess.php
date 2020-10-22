@@ -2,16 +2,11 @@
 ob_start();
 session_start();
 require_once ("./header.php");
-require_once ('./CreateDb.php');
-// require_once ('./component.php');
 
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['user'])) {
     header("Location: ./Login/login.php");
     exit;
 }
-
-// create instance of Createdb class
-$database = new CreateDb("Organic_India", "products");
 
 ?>
 
@@ -34,15 +29,7 @@ $database = new CreateDb("Organic_India", "products");
 
 <body>
 
-<div style="margin-top: 15%;" class="container">
-    <div class="row">
-        <a style="margin: 1%;" href="buyerList.php" class="col btn btn-outline-primary">List of Buyers</a>
-        <a style="margin: 1%;" href="sellerList.php" class="col btn btn-outline-secondary">List of Sellers</a>
-        <a style="margin: 1%;" href="productList.php" class="col btn btn-outline-success">List of Products</a>
-        <a style="margin: 1%;" href="transactionList.php" class="col btn btn-outline-dark">List of Transactions</a>
-    </div>
-</div>
-
+<h1 style="text-align:center; margin-top:15%;">Transaction Successful!</h1>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
