@@ -36,6 +36,7 @@ if (isset($_POST['data'])) {
         echo "Product Added!";
     }
     echo "<h3>File uploaded successfully<h3>";
+    header("Location: ./index.php");
 }
 ?>
 
